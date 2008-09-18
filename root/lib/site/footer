@@ -1,0 +1,5 @@
+<!-- BEGIN site/footer -->
+<div id="powered-by-catalyst">
+<a href="http://catalyst.perl.org"><img src="[% c.uri_for('/static/images/btn_120x50_powered.png') %]" alt="" /></a></div>
+<div id="copyright"><a href="http://www.codedright.net">&copy; [% site.copyright %]</a></div>
+<!-- END site/footer -->

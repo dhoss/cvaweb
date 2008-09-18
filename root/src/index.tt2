@@ -1,0 +1,11 @@
+[% META title = 'Campus Village RA Website' %]
+<h1>Welcome!</h1>
+<p>This site is to serve as an "all purpose" resource for <a href="http://www.campusvillageliving.com">Campus Village Apartments'</a>
+Resident assistants and residents themselves.</a></p>
+<p>Currently, you can:</p>
+<ul>
+<li>post ideas, thoughts or just chat on the <a href="[% c.uri_for('/discussion') %]">message board</a>, </li>
+<li>look up, post and confirm your <a href="[% c.uri_for('/events') %]">events</a>,</li>
+<li>and post ideas to the <a href="[% c.uri_for('/polls') %]">polls</a> to be voted on.</li>
+</ul>
+<p>All you have to do is <a href="[% uri_for('/signup') %]">sign up!</a></p>
