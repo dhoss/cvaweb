@@ -88,6 +88,15 @@ a:visited {
 
 }
 
+#main-page-welcome {
+
+  background-color: #dbdbd9;
+  color: #000;
+  padding: .33em;
+  border: 1px solid #7089B2;
+
+}
+
 #footer {
     background-color: [% site.col.head %];
     text-align: center;

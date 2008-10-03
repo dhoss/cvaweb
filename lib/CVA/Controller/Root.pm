@@ -46,8 +46,8 @@ Serve up a 404 error page for non-existent items.
 =cut
 sub default :Path {
     my ( $self, $c ) = @_;
-    $c->response->body( 'Page not found' );
-    $c->response->status(404);
+    $c->res->body( 'Page not found' );
+    $c->res->status(404);
     
 }
 
@@ -61,7 +61,8 @@ sub end : ActionClass('RenderView') {}
 
 =head1 AUTHOR
 
-Devin,,,
+Devin Austin
+devin.austin@gmail.com
 
 =head1 LICENSE
 

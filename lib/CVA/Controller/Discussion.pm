@@ -2,7 +2,7 @@ package CVA::Controller::Discussion;
 
 use strict;
 use warnings;
-use parent 'Catalyst::Controller';
+use parent 'Catalyst::Controller::HTML::FormFu';
 
 =head1 NAME
 

@@ -26,6 +26,9 @@
 <li><a href="[% c.uri_for('/contact') %]">contact</a></li>
 <li><a href="[% c.uri_for('/events') %]">events</a></li>
 <li><a href="[% c.uri_for('/polls') %]">voting booth</a></li>
+<li><form method="get" name="search">
+<label>search:</label><input type="text" name="q" />
+</form>
 </ul>
 </div>
 [% content %]
