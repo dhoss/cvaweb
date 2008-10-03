@@ -1,1 +1,4 @@
 [% META title='Sign up!' %]
+    
+[%# Render the HTML::FormFu Form %]
+[% form %]
