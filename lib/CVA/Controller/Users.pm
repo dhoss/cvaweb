@@ -39,7 +39,7 @@ sub index :Path :Args(0) {
 
 =cut
 
-sub create : Local {
+sub create : Path("/signup") {
 	my ( $self, $c ) = @_;
 	
 	$c->stash->{template} = "users/create.tt2";
