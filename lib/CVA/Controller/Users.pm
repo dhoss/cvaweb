@@ -3,6 +3,8 @@ package CVA::Controller::Users;
 use strict;
 use warnings;
 use parent 'Catalyst::Controller::HTML::FormFu';
+use CVA::Messages::Email;
+
 
 =head1 NAME
 
@@ -40,24 +42,39 @@ sub index : Path : Args(0) {
 sub create : Path("/signup") : FormConfig {
 	my ( $self, $c ) = @_;
 
-	my $form = $c->stash->{form};
+	my @errors = ();
+	my $form   = $c->stash->{form};
+	$c->stash->{template} = "users/create.tt2";
+	
+	## check to see if we have a user in the db with this email
+	my $user =
+	  $c->model('DB::User')->find_or_new( { email => $form->param('email') } );
+
+	## let's make sure we have a valid form
 	if ( $form->submitted_and_valid ) {
 
-		my $user = $c->model('DB::User')->new_result( {} );
-
+		$c->model('DB::user')->update($user);
 		
-		$form->save_to_model($user);
-
 		# Set a status message for the user
-		$c->stash->{status_msg} = 'Book created';
+		$c->stash->{status_msg} =
+		  "Thank you for registering! A confirmation email has been sent to "
+		  . $form->param('email');
 
-		#$c->detach;
-	}
-	else {
+		$c->detach;
 
-	
 	}
-	$c->stash->{template} = "users/create.tt2";
+
+	## our form has an error, it's in our call back since
+	## we got to this point
+	if ( $user->in_storage() ) {
+		$c->log->debug("In storage:" . $user->in_storage );
+
+		$form->get_field('email')->get_constraint( { type => 'Callback' } )
+		  ->force_errors(1);
+
+		$form->process;
+
+	}
 
 }
 

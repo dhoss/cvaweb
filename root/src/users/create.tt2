@@ -1,4 +1,4 @@
 [% META title='Sign up!' %]
-    
-[%# Render the HTML::FormFu Form %]
+<p>All fields are required.</p>
 [% form %]
+

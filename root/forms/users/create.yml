@@ -3,41 +3,57 @@
 indicator: submit
 # Start listing the form elements
 elements:
-    #
     - type: Text
-      name: username
+      name: name
       label: Your Name
       attributes:
         title: Enter your name here
-      filter:
-          # Remove whitespace at both ends
-          - TrimEdges
-          # Escape HTML characters for safety
-          - HTMLEscape
-          # Add constraints for the field
+     
       constraints:
-        # The user cannot leave this field blank
-        - SingleValue
+        type: Callback
 
     
     - type: Password
-      name: password1
+      name: password
       label: Password
       attributes:
         title: Enter your password here
+     
     
     - type: Password
       name: password2
       label: Password (Again)
       attributes:
         title: Enter your password again for confirmation
+      constraints:
+         type: Equal
+         others: password
+         
         
     - type: Text
       name: email
       label: Email
       attributes:
           title: Enter a valid email for confirmation
+      constraints:
+          type: Callback
+          message: 'This email address is already in use'
+          #- Email
+    
 
     - type: Submit
       name: submit
-      value: Sign up!          
+      value: Sign up!  
+      
+      
+      
+# Globally ensure that each field only specified one value
+constraints:
+    # The user cannot leave any fields blank
+    - Required    
+    
+filter:
+     # Remove whitespace at both ends
+     - TrimEdges
+     # Escape HTML characters for safety
+     - HTMLEscape    
