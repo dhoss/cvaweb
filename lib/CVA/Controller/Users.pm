@@ -98,7 +98,6 @@ sub create : Path("/signup") : FormConfig {
 		if ( $@ ) {
 			
 			$c->log->debug("ERROR: " . $@);
-			$c->log->debug(CVA->config->{email_config}->{from_address});
 			$c->stash->{error_msg} = "Oops! Something went wrong!";
 			$c->detach;
 			
@@ -107,6 +106,58 @@ sub create : Path("/signup") : FormConfig {
 	}
 
 }
+
+
+=head2 confirm
+
+  Check by confirmation key if a user
+  has confirmed their account or not. 
+
+=cut
+sub confirm : Local {
+	my ($self, $c, $key) = @_;
+	my $user;
+	$c->stash->{template} = "users/confirm.tt2";
+	
+	eval {
+		
+		$user = $c->model('DB::User')->find({ key => $key });
+		
+	};
+	
+	if ($@) {
+		$c->stash->{error_msg} = "No key provided.";
+		$c->detach;
+		
+	}
+	
+	
+	if ( $user->confirmed ) {
+		
+		$c->stash->{error_msg} = "This account has already been confirmed";
+		
+	} else {
+		
+		if ( $user->key eq $key ) {
+			
+			$user->confirmed(1);
+			$user->update;
+			$c->stash->{confirmed} = 1;
+			$c->stash->{status_msg} = "Sucessfully confirmed!";
+			$c->detach;
+			
+		} else {
+			
+			$c->stash->{error_msg} = "Confirmation key doesn't match!";
+			$c->detach;
+			
+		}
+		
+	}
+	
+	
+}
+
 
 =head1 AUTHOR
 

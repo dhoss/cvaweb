@@ -8,6 +8,8 @@ use base 'DBIx::Class';
 __PACKAGE__->load_components("Core");
 __PACKAGE__->table("user");
 __PACKAGE__->add_columns(
+  "confirmed",
+  { data_type => "NUMERIC", is_nullable => 0, size => undef },
   "key",
   { data_type => "TEXT", is_nullable => 0, size => undef },
   "about",
@@ -30,8 +32,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("userid");
 
 
-# Created by DBIx::Class::Schema::Loader v0.04004 @ 2008-10-07 16:26:16
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hsexJtTSVVPl4mAIIATFNQ
+# Created by DBIx::Class::Schema::Loader v0.04004 @ 2008-10-07 16:46:18
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:D9/of/jgivc75u8VHICyVw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
