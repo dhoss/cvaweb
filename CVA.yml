@@ -1,5 +1,7 @@
 # rename this file to CVA.yml and put a : in front of "name" if
 # you want to use yaml like in old versions of Catalyst
-:name CVA
+---
+name: CVA
+
 email_config:
     from_address: cva@onthebeachatnight.com

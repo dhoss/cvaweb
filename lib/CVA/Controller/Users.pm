@@ -49,7 +49,7 @@ sub create : Path("/signup") : FormConfig {
 	my $user =
 	  $c->model('DB::User')->find_or_new( { email => $form->param('email') } );
 
-	## user exists
+	## user exists, so we'll return the proper error
 	if ( $user->in_storage() ) {
 
 		$form->get_field('email')->get_constraint( { type => 'Callback' } )
@@ -62,14 +62,36 @@ sub create : Path("/signup") : FormConfig {
 
 	## let's make sure we have a valid form
 	if ( $form->submitted_and_valid ) {
-		$user->insert;
 
-		# Set a status message for the user
-		$c->stash->{status_msg} =
-		  "Thank you for registering! A confirmation email has been sent to "
-		  . $form->param('email');
+        ## trap errors
+ 		eval {
+			## insert the object into the database
+			$user->insert;
 
-		$c->detach;
+			## send an email to the user with their registraion key
+			CVA::Messages::Email->send_simple_email(
+				$form->param('email'),
+				'Thanks for signing up!',
+				"Thank you for signing up."
+			);
+
+			# Set a status message for the user
+			$c->stash->{status_msg} =
+               "Thank you for registering! A confirmation email has been sent to "
+			  . $form->param('email');
+
+			$c->detach;
+		};
+		
+		## something went awry
+		if ( $@ ) {
+			
+			$c->log->debug("ERROR: " . $@);
+			$c->log->debug(CVA->config->{email_config}->{from_address});
+			$c->stash->{error_msg} = "Oops! Something went wrong!";
+			$c->detach;
+			
+		}
 
 	}
 

@@ -1,4 +1,6 @@
 [% META title='Sign up!' %]
+[% UNLESS c.req.param() %]
 <p>All fields are required.</p>
 [% form %]
+[% END %]
 
