@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller::HTML::FormFu';
 use CVA::Messages::Email;
+use CVA::Users;
+use DateTime;     ## do we want to do something else for this? maybe some DBIC trickery?
 
 =head1 NAME
 
@@ -48,6 +50,15 @@ sub create : Path("/signup") : FormConfig {
 	## check to see if we have a user in the db with this email
 	my $user =
 	  $c->model('DB::User')->find_or_new( { email => $form->param('email') } );
+	my $key  = CVA::Users->new->generate_key(
+	
+	    $form->param('name'),
+	    $form->param('password'),
+	    $form->param('email')
+	
+	);
+    $user->key($key);
+    $user->created( DateTime->now );
 
 	## user exists, so we'll return the proper error
 	if ( $user->in_storage() ) {
